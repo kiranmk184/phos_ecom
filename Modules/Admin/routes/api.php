@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Admin\Http\Controllers\AdminController;
+use Modules\Admin\Http\Controllers\AuthenticationController;
 
 /*
  *--------------------------------------------------------------------------
@@ -12,8 +13,17 @@ use Modules\Admin\Http\Controllers\AdminController;
  * routes are loaded by the RouteServiceProvider within a group which
  * is assigned the "api" middleware group. Enjoy building your API!
  *
-*/
+ */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
+Route::prefix('auth/admin')->group(function () {
+    Route::post('login', [AuthenticationController::class, 'login'])->name('admin.login');
+    Route::post('logout', [AuthenticationController::class, 'logout'])->name('admin.logout')->middleware('auth:sanctum');
+});
+
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('admin', AdminController::class)->names('admin');
+
+    Route::prefix('admin')->group(function () {
+
+    });
 });
