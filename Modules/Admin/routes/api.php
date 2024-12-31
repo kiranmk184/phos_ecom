@@ -15,15 +15,17 @@ use Modules\Admin\Http\Controllers\AuthenticationController;
  *
  */
 
-Route::prefix('auth/admin')->group(function () {
-    Route::post('login', [AuthenticationController::class, 'login'])->name('admin.login');
-    Route::post('logout', [AuthenticationController::class, 'logout'])->name('admin.logout')->middleware('auth:sanctum');
-});
+Route::prefix('v1')->group(function () {
+    Route::prefix('auth/admin')->group(function () {
+        Route::post('login', [AuthenticationController::class, 'login'])->name('admin.login');
+        Route::post('logout', [AuthenticationController::class, 'logout'])->name('admin.logout')->middleware('auth:sanctum');
+    });
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::apiResource('admin', AdminController::class)->names('admin');
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::apiResource('admin', AdminController::class)->names('admin');
 
-    Route::prefix('admin')->group(function () {
+        Route::prefix('admin')->group(function () {
 
+        });
     });
 });
