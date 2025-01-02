@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('flat_products', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id()->primary();
             $table->foreignUuid('product_id')->constrained()->onDelete('cascade');
             $table->string('sku');
             $table->string('product_number');

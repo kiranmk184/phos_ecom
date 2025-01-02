@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_downloadable_links', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id()->primary();
             $table->foreignUuid('product_id')->constrained()->onDelete('cascade');
             $table->string('url');
             $table->string('file');
@@ -35,5 +35,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('product_downloadable_links');
+        Schema::dropForeign('product_downloadable_links_product_id_foreign');
     }
 };

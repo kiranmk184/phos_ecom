@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_reviews', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id()->primary();
             $table->foreignUuid('product_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('customer_id')->constrained()->onDelete('cascade');
             $table->string('title');
@@ -29,5 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('product_reviews');
+        Schema::dropForeign('product_reviews_product_id_foreign');
+        Schema::dropForeign('product_reviews_customer_id_foreign');
     }
 };
