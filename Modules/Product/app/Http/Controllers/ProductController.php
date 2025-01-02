@@ -12,15 +12,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('product::index');
-    }
+        //
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('product::create');
+        return response()->json(['index']);
     }
 
     /**
@@ -29,6 +23,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+
+        return response()->json(['store']);
     }
 
     /**
@@ -36,15 +32,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return view('product::show');
-    }
+        //
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('product::edit');
+        return response()->json(['show']);
     }
 
     /**
@@ -53,6 +43,8 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        return response()->json([]);
     }
 
     /**
@@ -61,5 +53,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+
+        return response()->json([]);
     }
 }
