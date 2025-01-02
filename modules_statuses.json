@@ -1,5 +1,6 @@
 {
     "Core": true,
     "Admin": true,
-    "Product": true
+    "Product": true,
+    "Attribute": true
 }
