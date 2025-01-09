@@ -3,5 +3,6 @@
     "Admin": true,
     "Product": true,
     "Attribute": true,
-    "Category": true
+    "Category": true,
+    "Inventory": true
 }
