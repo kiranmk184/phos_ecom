@@ -4,5 +4,6 @@
     "Product": true,
     "Attribute": true,
     "Category": true,
-    "Inventory": true
+    "Inventory": true,
+    "Channel": true
 }
