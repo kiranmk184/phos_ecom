@@ -14,6 +14,6 @@ use Modules\Inventory\Http\Controllers\InventoryController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('inventory', InventoryController::class)->names('inventory');
-});
+// Route::group([], function () {
+//     Route::resource('inventory', InventoryController::class)->names('inventory');
+// });
