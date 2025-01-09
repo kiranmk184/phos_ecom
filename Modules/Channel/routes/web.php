@@ -14,6 +14,6 @@ use Modules\Channel\Http\Controllers\ChannelController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('channel', ChannelController::class)->names('channel');
-});
+// Route::group([], function () {
+//     Route::resource('channel', ChannelController::class)->names('channel');
+// });
