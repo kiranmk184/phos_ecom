@@ -24,5 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('attribute_group_mappings');
+        Schema::dropForeign('attribute_group_mappings_attribute_id_foreign');
+        Schema::dropForeign('attribute_group_mappings_attribute_group_id_foreign');
     }
 };

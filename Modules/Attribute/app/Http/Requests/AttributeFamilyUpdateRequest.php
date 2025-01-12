@@ -4,7 +4,7 @@ namespace Modules\Attribute\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AttributeFamilyStoreRequest extends FormRequest
+class AttributeFamilyUpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,8 +12,8 @@ class AttributeFamilyStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required', 'string', 'unique:attribute_families,code'],
-            'name' => ['required', 'string', 'unique:attribute_families,name'],
+            'code' => ['string', 'unique:attribute_families,code'],
+            'name' => ['string', 'unique:attribute_families,name'],
             'status' => ['boolean'],
             'is_user_defined' => ['boolean']
         ];

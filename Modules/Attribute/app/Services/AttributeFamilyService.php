@@ -2,6 +2,9 @@
 
 namespace Modules\Attribute\Services;
 
+use Exception;
+use Illuminate\Database\Eloquent\Collection;
+use Modules\Attribute\Models\AttributeFamily;
 use Modules\Attribute\Repositories\AttributeFamilyRepository;
 
 class AttributeFamilyService
@@ -10,23 +13,36 @@ class AttributeFamilyService
     {
     }
 
-    public function index()
+    public function index(): Collection
     {
-
+        return $this->attributeFamilyRepository->all();
     }
 
-    public function store(): mixed
+    public function show(string|int $id): AttributeFamily
     {
-        return $this->attributeFamilyRepository->store();
+        return $this->attributeFamilyRepository->find($id);
     }
 
-    public function update()
+    public function store(array $data): AttributeFamily
     {
-
+        return $this->attributeFamilyRepository->store($data);
     }
 
-    public function delete()
+    public function update(string|int $id, array $data): void
     {
+        $status = $this->attributeFamilyRepository->update($id, $data);
 
+        if (!$status) {
+            throw new Exception('Attribute family could not be updated.', 500);
+        }
+    }
+
+    public function delete(string|int $id): void
+    {
+        $status = $this->attributeFamilyRepository->delete($id);
+
+        if (!$status) {
+            throw new Exception('Attribute family could not be deleted.', 500);
+        }
     }
 }
