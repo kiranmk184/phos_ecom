@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('attribute_groups', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('attribute_family_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('attribute_family_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->integer('position');
             $table->boolean('is_user_defined')->default(true);
