@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attribute_families', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('code');
-            $table->string('name');
-            $table->boolean('status')->default(0);
-            $table->boolean('is_user_defined')->default(1);
+        Schema::create('attribute_group_mappings', function (Blueprint $table) {
+            $table->foreignUuid('attribute_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('attribute_group_id')->constrained()->onDelete('cascade');
+            $table->integer('position');
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attribute_families');
+        Schema::dropIfExists('attribute_group_mappings');
     }
 };

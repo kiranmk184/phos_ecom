@@ -14,6 +14,6 @@ use Modules\Attribute\Http\Controllers\AttributeController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('attribute', AttributeController::class)->names('attribute');
-});
+// Route::group([], function () {
+//     Route::resource('attribute', AttributeController::class)->names('attribute');
+// });

@@ -5,11 +5,18 @@ namespace Modules\Attribute\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 // use Modules\Attribute\Database\Factories\AttributeFactory;
 
 class Attribute extends Model
 {
     use HasFactory, HasUuids;
+
+    // protected static function newFactory(): AttributeFactory
+    // {
+    //     // return AttributeFactory::new();
+    // }
 
     /**
      * Indicates if the model's ID is auto-incrementing.
@@ -45,8 +52,15 @@ class Attribute extends Model
         'swatch_type',
     ];
 
-    // protected static function newFactory(): AttributeFactory
-    // {
-    //     // return AttributeFactory::new();
-    // }
+    public function attributeGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            AttributeGroup::class,
+            'attribute_group_mappings',
+            'attribute_id',
+            'attribute_group_id'
+        );
+    }
+
+    
 }

@@ -4,9 +4,16 @@ namespace Modules\Attribute\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Attribute\Http\Requests\AttributeFamilyStoreRequest;
+use Modules\Attribute\Services\AttributeFamilyService;
 
-class AttributeController extends Controller
+class AttributeFamilyController extends Controller
 {
+    public function __construct(protected AttributeFamilyService $attributeFamilyService)
+    {
+
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -20,11 +27,15 @@ class AttributeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AttributeFamilyStoreRequest $request)
     {
-        //
-        dd($request->all());
-        return response()->json([]);
+        $data = $request->validated();
+        $data['status'] = $data['status'] ?? false;
+        $data['is_user_defined'] = $data['is_user_defined'] ?? true;
+
+        $this->attributeFamilyService->store($data);
+
+        return response()->json([$data]);
     }
 
     /**
