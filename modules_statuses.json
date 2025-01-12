@@ -1,5 +1,4 @@
 {
-    "Core": true,
     "Admin": true,
     "Product": true,
     "Attribute": true,
@@ -7,5 +6,6 @@
     "Inventory": true,
     "Channel": true,
     "Cart": true,
-    "Order": true
+    "Order": true,
+    "Core": true
 }
