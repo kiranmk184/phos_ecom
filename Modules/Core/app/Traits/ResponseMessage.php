@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\App\Traits;
+namespace Modules\Core\Traits;
 
 trait ResponseMessage
 {
