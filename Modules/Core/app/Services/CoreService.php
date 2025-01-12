@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\App\Services;
+namespace Modules\Core\Services;
 
 class CoreService
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\App\Repositories;
+namespace Modules\Core\Repositories;
 
 class CoreRepository
 {
