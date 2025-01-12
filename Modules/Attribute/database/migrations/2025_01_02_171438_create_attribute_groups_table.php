@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attribute_groups', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignId('attribute_family_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->integer('position');
