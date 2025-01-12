@@ -62,5 +62,5 @@ class Attribute extends Model
         );
     }
 
-    
+        
 }
