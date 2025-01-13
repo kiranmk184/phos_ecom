@@ -4,14 +4,14 @@ namespace Modules\Attribute\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Modules\Attribute\Http\Requests\AttributeFamilyStoreRequest;
-use Modules\Attribute\Http\Requests\AttributeFamilyUpdateRequest;
-use Modules\Attribute\Services\AttributeFamilyService;
+use Modules\Attribute\Http\Requests\AttributeGroupStoreRequest;
+use Modules\Attribute\Http\Requests\AttributeGroupUpdateRequest;
+use Modules\Attribute\Services\AttributeGroupService;
 use Modules\Core\Http\Controllers\CoreController;
 
-class AttributeFamilyController extends CoreController
+class AttributeGroupController extends CoreController
 {
-    public function __construct(protected AttributeFamilyService $attributeFamilyService)
+    public function __construct(protected AttributeGroupService $attributeGroupService)
     {
     }
 
@@ -21,7 +21,7 @@ class AttributeFamilyController extends CoreController
     public function index(): JsonResponse
     {
         try {
-            $attributeFamilies = $this->attributeFamilyService->index();
+            $attributeGroups = $this->attributeGroupService->index();
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getCode(),
@@ -30,9 +30,9 @@ class AttributeFamilyController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Attribute families fetched successfully.',
+            message: 'Attribute groups fetched successfully.',
             payload: [
-                'attribute_families' => $attributeFamilies,
+                'attribute_groups' => $attributeGroups,
             ]
         );
     }
@@ -40,14 +40,14 @@ class AttributeFamilyController extends CoreController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AttributeFamilyStoreRequest $request): JsonResponse
+    public function store(AttributeGroupStoreRequest $request): JsonResponse
     {
         try {
             $data = $request->validated();
-            $data['status'] ??= false;
+            $data['position'] ??= 0;
             $data['is_user_defined'] ??= true;
 
-            $attributeFamily = $this->attributeFamilyService->store($data);
+            $attributeGroup = $this->attributeGroupService->store($data);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -56,9 +56,9 @@ class AttributeFamilyController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Attribute family created successfully.',
+            message: 'Attribute group created successfully.',
             payload: [
-                'attribute_family' => $attributeFamily,
+                'attribute_group' => $attributeGroup,
             ]
         );
     }
@@ -69,7 +69,7 @@ class AttributeFamilyController extends CoreController
     public function show(string|int $id): JsonResponse
     {
         try {
-            $attributeFamily = $this->attributeFamilyService->show($id);
+            $attributeGroup = $this->attributeGroupService->find($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -78,9 +78,9 @@ class AttributeFamilyController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Attribute family fetched successfully.',
+            message: 'Attribute group fetched successfully.',
             payload: [
-                'attribute_family' => $attributeFamily,
+                'attribute_group' => $attributeGroup,
             ]
         );
     }
@@ -88,12 +88,12 @@ class AttributeFamilyController extends CoreController
     /**
      * Update the specified resource in storage.
      */
-    public function update(AttributeFamilyUpdateRequest $request, string|int $id)
+    public function update(AttributeGroupUpdateRequest $request, string|int $id)
     {
         try {
             $data = $request->validated();
 
-            $this->attributeFamilyService->update($id, $data);
+            $this->attributeGroupService->update($id, $data);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -102,7 +102,7 @@ class AttributeFamilyController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Attribute family updated successfully.'
+            message: 'Attribute group updated successfully.'
         );
     }
 
@@ -112,7 +112,7 @@ class AttributeFamilyController extends CoreController
     public function destroy(string|int $id)
     {
         try {
-            $this->attributeFamilyService->delete($id);
+            $this->attributeGroupService->delete($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -121,7 +121,7 @@ class AttributeFamilyController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Attribute family deleted successfully.'
+            message: 'Attribute group deleted successfully.'
         );
     }
 }
