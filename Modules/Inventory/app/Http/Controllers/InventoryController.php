@@ -2,64 +2,122 @@
 
 namespace Modules\Inventory\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use Modules\Inventory\Services\InventoryService;
+use Modules\Core\Http\Controllers\CoreController;
+use Modules\Inventory\Http\Requests\InventoryStoreRequest;
+use Modules\Inventory\Http\Requests\InventoryUpdateRequest;
 
-class InventoryController extends Controller
+class InventoryController extends CoreController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected InventoryService $inventoryService)
     {
-        return view('inventory::index');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        return view('inventory::create');
+        try {
+            $inventories = $this->inventoryService->index();
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
+
+        return $this->successResponse(
+            message: 'Inventories fetched successfully.',
+            payload: [
+                'inventories' => $inventories,
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InventoryStoreRequest $request): JsonResponse
     {
-        //
+        try {
+            $inventory = $this->inventoryService->store($request->all());
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
+
+        return $this->successResponse(
+            message: 'Inventory created successfully.',
+            payload: [
+                'inventory' => $inventory
+            ]
+        );
     }
 
     /**
      * Show the specified resource.
      */
-    public function show($id)
+    public function show(string|int $id): JsonResponse
     {
-        return view('inventory::show');
-    }
+        try {
+           $inventory = $this->inventoryService->show($id);
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('inventory::edit');
+        return $this->successResponse(
+            message: 'Inventory fetched successfully.',
+            payload: [
+                'inventory' =>$inventory
+            ],
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(InventoryUpdateRequest $request, string|int $id): JsonResponse
     {
-        //
+        try {
+            $this->inventoryService->update($id, $request->all());
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
+
+        return $this->successResponse(
+            message: 'Inventory updated successfully.',
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(string|int $id): JsonResponse
     {
-        //
+        try {
+            $this->inventoryService->delete($id);
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
+
+        return $this->successResponse(
+            message: 'Inventory deleted successfully.'
+        );
     }
 }
