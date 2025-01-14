@@ -5,17 +5,18 @@ namespace Modules\Channel\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-// use Modules\Channel\Database\Factories\CurrencyExchangeRateFactory;
+// use Modules\Channel\Database\Factories\CMSPageFactory;
 
-class CurrencyExchangeRate extends Model
+class CMSPage extends Model
 {
     use HasFactory, HasUuids;
 
-    // protected static function newFactory(): CurrencyExchangeRateFactory
+    // protected static function newFactory(): CMSPageFactory
     // {
-    //     // return CurrencyExchangeRateFactory::new();
+    //     // return CMSPageFactory::new();
     // }
 
     /**
@@ -36,12 +37,16 @@ class CurrencyExchangeRate extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'rate',
-        'currency_id',
+        'layout'
     ];
 
-    public function currency(): BelongsTo
+    public function channels(): BelongsToMany
     {
-        return $this->belongsTo(Currency::class);
+        return $this->belongsToMany(Channel::class, 'channel_cms_page', 'channel_id', 'cms_page_id');
+    }
+
+    public function cmsPageTranslations(): HasMany
+    {
+        return $this->hasMany(CMSPageTranslation::class, 'cms_page_id');
     }
 }

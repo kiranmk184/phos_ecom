@@ -4,18 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('currency_exchange_rates', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->decimal('rate',24,12);
+        Schema::create('channel_currency', function (Blueprint $table) {
+            $table->foreignUuid('channel_id')->constrained()->onDelete('cascade');
             $table->foreignUuid('currency_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
@@ -24,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('currency_exchange_rates');
+        Schema::dropIfExists('channel_currency');
     }
 };

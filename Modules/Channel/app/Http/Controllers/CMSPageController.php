@@ -2,18 +2,18 @@
 
 namespace Modules\Channel\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Modules\Channel\Http\Requests\ChannelStoreRequest;
-use Modules\Channel\Http\Requests\ChannelUpdateRequest;
-use Modules\Channel\Services\ChannelService;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use Modules\Channel\Http\Requests\CMSPageStoreRequest;
+use Modules\Channel\Http\Requests\CMSPageUpdateRequest;
+use Modules\Channel\Services\CMSPageService;
 use Modules\Core\Http\Controllers\CoreController;
 
-class ChannelController extends CoreController
+class CMSPageController extends CoreController
 {
-    public function __construct(protected ChannelService $channelService)
+    public function __construct(protected CMSPageService $cmsPageService)
     {
     }
 
@@ -23,7 +23,7 @@ class ChannelController extends CoreController
     public function index(): JsonResponse
     {
         try {
-            $channels = $this->channelService->index();
+            $cmsPages = $this->cmsPageService->index();
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -32,9 +32,9 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channels fetched successfully.',
+            message: 'CMS pages fetched successfully.',
             payload: [
-                'channels' => $channels,
+                'cms_page' => $cmsPages,
             ]
         );
     }
@@ -42,10 +42,10 @@ class ChannelController extends CoreController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ChannelStoreRequest $request): JsonResponse
+    public function store(CMSPageStoreRequest $request): JsonResponse
     {
         try {
-            $channel = $this->channelService->store($request->all());
+            $cmsPage = $this->cmsPageService->store($request->all());
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -54,9 +54,9 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channel stored successfully.',
+            message: 'CMS page stored successfully.',
             payload: [
-                'channel' => $channel,
+                'cms_page' => $cmsPage,
             ]
         );
     }
@@ -64,10 +64,10 @@ class ChannelController extends CoreController
     /**
      * Show the specified resource.
      */
-    public function show(string|int $id): JsonResponse
+    public function show($id): JsonResponse
     {
         try {
-            $channel = $this->channelService->show($id);
+            $cmsPage = $this->cmsPageService->show($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -76,9 +76,9 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channel fetched successfully.',
+            message: 'CMS page fetched successfully.',
             payload: [
-                'channel' => $channel,
+                'cms_page' => $cmsPage,
             ]
         );
     }
@@ -86,10 +86,10 @@ class ChannelController extends CoreController
     /**
      * Update the specified resource in storage.
      */
-    public function update(ChannelUpdateRequest $request, $id): JsonResponse
+    public function update(CMSPageUpdateRequest $request, $id): JsonResponse
     {
         try {
-            $this->channelService->update($id, $request->all());
+            $this->cmsPageService->update($id, $request->all());
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -98,7 +98,7 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channel updated successfully.',
+            message: 'CMS page updated successfully.',
         );
     }
 
@@ -108,7 +108,7 @@ class ChannelController extends CoreController
     public function destroy(string|int $id): JsonResponse
     {
         try {
-            $this->channelService->delete($id);
+            $this->cmsPageService->delete($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -117,7 +117,7 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channel deleted successfully.',
+            message: 'CMS page deleted successfully.',
         );
     }
 }
