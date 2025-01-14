@@ -2,64 +2,121 @@
 
 namespace Modules\Category\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\Category\Http\Requests\CategoryStoreRequest;
+use Modules\Category\Http\Requests\CategoryUpdateRequest;
+use Modules\Category\Services\CategoryService;
+use Modules\Core\Http\Controllers\CoreController;
 
-class CategoryController extends Controller
+class CategoryController extends CoreController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected CategoryService $categoryService)
     {
-        return view('category::index');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      */
-    public function create()
+    public function index(): JsonResponse
     {
-        return view('category::create');
+        try {
+            $categories = $this->categoryService->index();
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
+
+        return $this->successResponse(
+            message: 'Categories fetched successfully.',
+            payload: [
+                'categories' => $categories,
+            ]
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryStoreRequest $request): JsonResponse
     {
-        //
+        try {
+            $category = $this->categoryService->store($request->all());
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
+
+        return $this->successResponse(
+            message: 'Category created successfully.',
+            payload: [
+                'category' => $category
+            ]
+        );
     }
 
     /**
      * Show the specified resource.
      */
-    public function show($id)
+    public function show(string|int $id): JsonResponse
     {
-        return view('category::show');
-    }
+        try {
+            $category = $this->categoryService->show($id);
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('category::edit');
+        return $this->successResponse(
+            message: 'Category fetched successfully.',
+            payload: [
+                'category' => $category
+            ],
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(CategoryUpdateRequest $request, string|int $id): JsonResponse
     {
-        //
+        try {
+            $this->categoryService->update($id, $request->all());
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
+
+        return $this->successResponse(
+            message: 'Category updated successfully.',
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(string|int $id): JsonResponse
     {
-        //
+        try {
+            $this->categoryService->delete($id);
+        } catch (Exception $exception) {
+            return $this->errorResponse(
+                message: $exception->getMessage(),
+                code: $exception->getCode(),
+            );
+        }
+
+        return $this->successResponse(
+            message: 'Category deleted successfully.'
+        );
     }
 }
