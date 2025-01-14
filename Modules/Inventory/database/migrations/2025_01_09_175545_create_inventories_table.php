@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('street');
             $table->string('postal_code');
-            $table->int('priority')->default(0);
+            $table->integer('priority')->default(0);
             $table->decimal('latitude',10,5)->default(0);
             $table->decimal('longitude',10,5)->default(0);
             $table->boolean('status')->default(1);
