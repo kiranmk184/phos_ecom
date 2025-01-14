@@ -12,16 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sliders', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('image');
-            $table->text('content')->nullable();
+            $table->uuid('id')->primary();
             $table->foreignUuid('channel_id')->constrained()->onDelete('cascade');
+            $table->string('title');
+            $table->string('path');
+            $table->text('content')->nullable();
+            $table->text('slider_path')->nullable();
             $table->string('locale');
-            $table->string('link')->nullable();
-            $table->integer('position')->nullable();
-            $table->boolean('status')->nullable();
             $table->date('expired_at')->nullable();
+            $table->integer('sort_order');
             $table->timestamps();
         });
     }

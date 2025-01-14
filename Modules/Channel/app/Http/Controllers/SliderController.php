@@ -2,18 +2,18 @@
 
 namespace Modules\Channel\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Modules\Channel\Http\Requests\ChannelStoreRequest;
-use Modules\Channel\Http\Requests\ChannelUpdateRequest;
-use Modules\Channel\Services\ChannelService;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use Modules\Channel\Http\Requests\SliderStoreRequest;
+use Modules\Channel\Http\Requests\SliderUpdateRequest;
+use Modules\Channel\Services\SliderService;
 use Modules\Core\Http\Controllers\CoreController;
 
-class ChannelController extends CoreController
+class SliderController extends CoreController
 {
-    public function __construct(protected ChannelService $channelService)
+    public function __construct(protected SliderService $sliderService)
     {
     }
 
@@ -23,7 +23,7 @@ class ChannelController extends CoreController
     public function index(): JsonResponse
     {
         try {
-            $channels = $this->channelService->index();
+            $sliders = $this->sliderService->index();
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -32,9 +32,9 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channels fetched successfully.',
+            message: 'Sliders fetched successfully.',
             payload: [
-                'channels' => $channels,
+                'sliders' => $sliders,
             ]
         );
     }
@@ -42,10 +42,10 @@ class ChannelController extends CoreController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ChannelStoreRequest $request): JsonResponse
+    public function store(SliderStoreRequest $request): JsonResponse
     {
         try {
-            $channel = $this->channelService->store($request->all());
+            $slider = $this->sliderService->store($request->all());
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -54,9 +54,9 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channel stored successfully.',
+            message: 'Slider stored successfully.',
             payload: [
-                'channel' => $channel,
+                'slider' => $slider,
             ]
         );
     }
@@ -67,7 +67,7 @@ class ChannelController extends CoreController
     public function show(string|int $id): JsonResponse
     {
         try {
-            $channel = $this->channelService->show($id);
+            $slider = $this->sliderService->show($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -76,9 +76,9 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channel fetched successfully.',
+            message: 'Slider fetched successfully.',
             payload: [
-                'channel' => $channel,
+                'slider' => $slider,
             ]
         );
     }
@@ -86,10 +86,10 @@ class ChannelController extends CoreController
     /**
      * Update the specified resource in storage.
      */
-    public function update(ChannelUpdateRequest $request, $id): JsonResponse
+    public function update(SliderUpdateRequest $request, $id): JsonResponse
     {
         try {
-            $this->channelService->update($id, $request->all());
+            $this->sliderService->update($id, $request->all());
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -98,7 +98,7 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channel updated successfully.',
+            message: 'Slider updated successfully.',
         );
     }
 
@@ -108,7 +108,7 @@ class ChannelController extends CoreController
     public function destroy(string|int $id): JsonResponse
     {
         try {
-            $this->channelService->delete($id);
+            $this->sliderService->delete($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -117,7 +117,7 @@ class ChannelController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Channel deleted successfully.',
+            message: 'Slider deleted successfully.',
         );
     }
 }

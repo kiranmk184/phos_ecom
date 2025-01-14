@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-// use Modules\Channel\Database\Factories\CurrencyExchangeRateFactory;
+// use Modules\Channel\Database\Factories\CMSPageTranslationFactory;
 
-class CurrencyExchangeRate extends Model
+class CMSPageTranslation extends Model
 {
     use HasFactory, HasUuids;
 
-    // protected static function newFactory(): CurrencyExchangeRateFactory
+    // protected static function newFactory(): CMSPageTranslationFactory
     // {
-    //     // return CurrencyExchangeRateFactory::new();
+    //     // return CMSPageTranslationFactory::new();
     // }
 
     /**
@@ -36,12 +36,18 @@ class CurrencyExchangeRate extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'rate',
-        'currency_id',
+        'cms_page_id',
+        'page_title',
+        'url_key',
+        'html_content',
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+        'locale',
     ];
 
-    public function currency(): BelongsTo
+    public function cmsPage(): BelongsTo
     {
-        return $this->belongsTo(Currency::class);
+        return $this->belongsTo(CMSPage::class, 'cms_page_id');
     }
 }

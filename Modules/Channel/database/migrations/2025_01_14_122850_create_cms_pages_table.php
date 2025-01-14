@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('currencies', function (Blueprint $table) {
+        Schema::create('cms_pages', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('code');
-            $table->string('name');
-            $table->string('symbol')->nullable();
+            $table->string('layout');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('currencies');
+        Schema::dropIfExists('cms_pages');
     }
 };
