@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('category_id')->constrained()->onDelete('cascade');
-            $table->integer('number')->default(0);
+            $table->foreignUuid('parent_id')->nullable()->constrained('categories', 'id')->onDelete('cascade');
+            $table->integer('position')->default(0);
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->string('display_mode')->nullable();
@@ -32,5 +32,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('categories');
+        // Schema::dropForeign('categories_parent_id_foreign');
     }
 };
