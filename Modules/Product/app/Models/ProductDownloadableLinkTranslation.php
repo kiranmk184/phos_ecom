@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-// use Modules\Product\Database\Factories\ProductVideoFactory;
+// use Modules\Product\Database\Factories\ProductDownloadableLinkTranslationFactory;
 
-class ProductVideo extends Model
+class ProductDownloadableLinkTranslation extends Model
 {
     use HasFactory, HasUuids;
 
-    // protected static function newFactory(): ProductVideoFactory
+    // protected static function newFactory(): ProductDownloadableLinkTranslationFactory
     // {
-    //     // return ProductVideoFactory::new();
+    //     // return ProductDownloadableLinkTranslationFactory::new();
     // }
 
     /**
@@ -33,24 +33,23 @@ class ProductVideo extends Model
     protected $keyType = 'string';
 
     /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+        'locale',
+        'title',
+        'product_dl_lk_id',
+    ];
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
      */
     public $timestamps = false;
 
-    /**
-     * The attributes that are mass assignable.
-     */
-    protected $fillable = [
-        'product_id',
-        'type',
-        'path',
-        'position',
-    ];
-
-    public function product(): BelongsTo
+    public function productDownloadableLink(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(ProductDownloadableLink::class, 'product_dl_lk_id');
     }
 }

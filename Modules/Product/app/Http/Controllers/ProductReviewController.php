@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Modules\Core\Http\Controllers\CoreController;
-use Modules\Product\Http\Requests\ProductStoreRequest;
-use Modules\Product\Http\Requests\ProductUpdateRequest;
-use Modules\Product\Services\ProductService;
+use Modules\Product\Http\Requests\ProductReviewStoreRequest;
+use Modules\Product\Http\Requests\ProductReviewUpdateRequest;
+use Modules\Product\Services\ProductReviewService;
 
-class ProductController extends CoreController
+class ProductReviewController extends CoreController
 {
-    public function __construct(protected ProductService $productService)
+    public function __construct(protected ProductReviewService $productReviewService)
     {
     }
 
@@ -23,7 +23,7 @@ class ProductController extends CoreController
     public function index(): JsonResponse
     {
         try {
-            $products = $this->productService->index();
+            $productReviews = $this->productReviewService->index();
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -32,9 +32,9 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Products fetched successfully.',
+            message: 'Product reviews fetched successfully.',
             payload: [
-                'products' => $products,
+                'product_reviews' => $productReviews,
             ]
         );
     }
@@ -42,10 +42,10 @@ class ProductController extends CoreController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductStoreRequest $request): JsonResponse
+    public function store(ProductReviewStoreRequest $request): JsonResponse
     {
         try {
-            $product = $this->productService->store($request->all());
+            $productReview = $this->productReviewService->store($request->all());
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -54,9 +54,9 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Product created successfully.',
+            message: 'Product review created successfully.',
             payload: [
-                'product' => $product
+                'product_review' => $productReview
             ]
         );
     }
@@ -67,7 +67,7 @@ class ProductController extends CoreController
     public function show(string|int $id): JsonResponse
     {
         try {
-            $product = $this->productService->show($id);
+           $productReview = $this->productReviewService->show($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -76,9 +76,9 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Product fetched successfully.',
+            message: 'Product review fetched successfully.',
             payload: [
-                'product' => $product
+                'product_review' =>$productReview
             ],
         );
     }
@@ -86,10 +86,10 @@ class ProductController extends CoreController
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductUpdateRequest $request, string|int $id): JsonResponse
+    public function update(ProductReviewUpdateRequest $request, string|int $id): JsonResponse
     {
         try {
-            $this->productService->update($id, $request->all());
+            $this->productReviewService->update($id, $request->all());
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -98,7 +98,7 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Product updated successfully.',
+            message: 'Product review updated successfully.',
         );
     }
 
@@ -108,7 +108,7 @@ class ProductController extends CoreController
     public function destroy(string|int $id): JsonResponse
     {
         try {
-            $this->productService->delete($id);
+            $this->productReviewService->delete($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -117,7 +117,7 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Product deleted successfully.'
+            message: 'Product review deleted successfully.'
         );
     }
 }

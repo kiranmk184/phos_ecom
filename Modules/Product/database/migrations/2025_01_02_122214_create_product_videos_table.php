@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_videos', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->uuid('id')->primary();
             $table->foreignUuid('product_id')->constrained()->onDelete('cascade');
             $table->string('type')->nullable();
             $table->string('path');
+            $table->integer('position');
         });
     }
 
@@ -25,6 +26,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('product_videos');
-        Schema::dropForeign('product_videos_product_id_foreign');
     }
 };

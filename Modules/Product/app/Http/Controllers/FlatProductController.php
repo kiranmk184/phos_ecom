@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Modules\Core\Http\Controllers\CoreController;
-use Modules\Product\Http\Requests\ProductStoreRequest;
-use Modules\Product\Http\Requests\ProductUpdateRequest;
-use Modules\Product\Services\ProductService;
+use Modules\Product\Http\Requests\FlatProductStoreRequest;
+use Modules\Product\Http\Requests\FlatProductUpdateRequest;
+use Modules\Product\Services\FlatProductService;
 
-class ProductController extends CoreController
+class FlatProductController extends CoreController
 {
-    public function __construct(protected ProductService $productService)
+    public function __construct(protected FlatProductService $flatProductService)
     {
     }
 
@@ -23,7 +23,7 @@ class ProductController extends CoreController
     public function index(): JsonResponse
     {
         try {
-            $products = $this->productService->index();
+            $flatProducts = $this->flatProductService->index();
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -32,9 +32,9 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Products fetched successfully.',
+            message: 'Flat products fetched successfully.',
             payload: [
-                'products' => $products,
+                'flat_products' => $flatProducts,
             ]
         );
     }
@@ -42,10 +42,10 @@ class ProductController extends CoreController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductStoreRequest $request): JsonResponse
+    public function store(FlatProductStoreRequest $request): JsonResponse
     {
         try {
-            $product = $this->productService->store($request->all());
+            $flatProduct = $this->flatProductService->store($request->all());
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -54,9 +54,9 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Product created successfully.',
+            message: 'Flat product created successfully.',
             payload: [
-                'product' => $product
+                'flat_product' => $flatProduct
             ]
         );
     }
@@ -67,7 +67,7 @@ class ProductController extends CoreController
     public function show(string|int $id): JsonResponse
     {
         try {
-            $product = $this->productService->show($id);
+            $flatProduct = $this->flatProductService->show($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -76,9 +76,9 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Product fetched successfully.',
+            message: 'Flat product fetched successfully.',
             payload: [
-                'product' => $product
+                'flat_product' => $flatProduct
             ],
         );
     }
@@ -86,10 +86,10 @@ class ProductController extends CoreController
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductUpdateRequest $request, string|int $id): JsonResponse
+    public function update(FlatProductUpdateRequest $request, string|int $id): JsonResponse
     {
         try {
-            $this->productService->update($id, $request->all());
+            $this->flatProductService->update($id, $request->all());
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -98,7 +98,7 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Product updated successfully.',
+            message: 'Flat product updated successfully.',
         );
     }
 
@@ -108,7 +108,7 @@ class ProductController extends CoreController
     public function destroy(string|int $id): JsonResponse
     {
         try {
-            $this->productService->delete($id);
+            $this->flatProductService->delete($id);
         } catch (Exception $exception) {
             return $this->errorResponse(
                 message: $exception->getMessage(),
@@ -117,7 +117,7 @@ class ProductController extends CoreController
         }
 
         return $this->successResponse(
-            message: 'Product deleted successfully.'
+            message: 'Flat product deleted successfully.'
         );
     }
 }

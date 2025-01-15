@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_review_images', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('product_review_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('product_review_id')->constrained()->onDelete('cascade');
             $table->string('type')->nullable();
             $table->string('path');
         });
@@ -25,6 +25,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('product_review_images');
-        Schema::dropForeign('product_review_images_product_review_id_foreign');
     }
 };
