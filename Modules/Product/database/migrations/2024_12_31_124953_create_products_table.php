@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('parent_id')->nullable()->constrained('products')->onDelete('cascade');
+            $table->foreignUuid('attribute_family_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('sku');
             $table->string('type');
-            $table->json('additional');
+            $table->json('additional')->nullable();
             $table->timestamps();
         });
     }
